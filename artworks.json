@@ -1,0 +1,121 @@
+[
+    {
+        "title": "Claude Monet",
+        "artist": "Paul Paulin (French, 1852\u20131937)",
+        "year": 1800,
+        "image": "https://openaccess-cdn.clevelandart.org/1980.275/1980.275_web.jpg",
+        "size": 18
+    },
+    {
+        "title": "Lormes:  Goat-Girl Sitting Beside a Stream in a Forest",
+        "artist": "Jean Baptiste Camille Corot (French, 1796\u20131875)",
+        "year": 1842,
+        "image": "https://openaccess-cdn.clevelandart.org/1962.35/1962.35_web.jpg",
+        "size": 18
+    },
+    {
+        "title": "Villerville Seen from Le Ratier",
+        "artist": "Charles Fran\u00e7ois Daubigny (French, 1817\u20131878)",
+        "year": 1855,
+        "image": "https://openaccess-cdn.clevelandart.org/1951.323/1951.323_web.jpg",
+        "size": 25
+    },
+    {
+        "title": "View of Ste-Adrese Beach with the Dumont Baths",
+        "artist": "Gustave Le Gray (French, 1820\u20131884)",
+        "year": 1856,
+        "image": "https://openaccess-cdn.clevelandart.org/2022.35/2022.35_web.jpg",
+        "size": 16
+    },
+    {
+        "title": "Seascape with Open Sky",
+        "artist": "Eug\u00e8ne Boudin (French, 1824\u20131898)",
+        "year": 1860,
+        "image": "https://openaccess-cdn.clevelandart.org/2020.116/2020.116_web.jpg",
+        "size": 24
+    },
+    {
+        "title": "Spring Flowers",
+        "artist": "Claude Monet (French, 1840\u20131926)",
+        "year": 1864,
+        "image": "https://openaccess-cdn.clevelandart.org/1953.155/1953.155_web.jpg",
+        "size": 30
+    },
+    {
+        "title": "The Seine at Bas-Meudon",
+        "artist": "Johan Barthold Jongkind (Dutch, 1819\u20131891)",
+        "year": 1865,
+        "image": "https://openaccess-cdn.clevelandart.org/1993.236/1993.236_web.jpg",
+        "size": 10
+    },
+    {
+        "title": "Portrait of Renoir",
+        "artist": "Fr\u00e9d\u00e9ric Bazille (French, 1841\u20131870)",
+        "year": 1867,
+        "image": "https://openaccess-cdn.clevelandart.org/2021.134/2021.134_web.jpg",
+        "size": 22
+    },
+    {
+        "title": "The Red Kerchief",
+        "artist": "Claude Monet (French, 1840\u20131926)",
+        "year": 1868,
+        "image": "https://openaccess-cdn.clevelandart.org/1958.39/1958.39_web.jpg",
+        "size": 26
+    },
+    {
+        "title": "Architecture",
+        "artist": "Marie Bracquemond (French, 1840\u20131916)",
+        "year": 1878,
+        "image": "https://openaccess-cdn.clevelandart.org/2023.165/2023.165_web.jpg",
+        "size": 18
+    },
+    {
+        "title": "Self-Portrait in a Spanish Costume",
+        "artist": "Marie Bracquemond (French, 1840\u20131916)",
+        "year": 1880,
+        "image": "https://openaccess-cdn.clevelandart.org/2023.166/2023.166_web.jpg",
+        "size": 19
+    },
+    {
+        "title": "Low Tide at Pourville, near Dieppe, 1882",
+        "artist": "Claude Monet (French, 1840\u20131926)",
+        "year": 1882,
+        "image": "https://openaccess-cdn.clevelandart.org/1947.196/1947.196_web.jpg",
+        "size": 30
+    },
+    {
+        "title": "Saint-Mamm\u00e8s, Loing Canal",
+        "artist": "Alfred Sisley (French, 1840\u20131899)",
+        "year": 1885,
+        "image": "https://openaccess-cdn.clevelandart.org/1961.262/1961.262_web.jpg",
+        "size": 28
+    },
+    {
+        "title": "Gardener's House at Antibes",
+        "artist": "Claude Monet (French, 1840\u20131926)",
+        "year": 1888,
+        "image": "https://openaccess-cdn.clevelandart.org/1916.1044/1916.1044_web.jpg",
+        "size": 10
+    },
+    {
+        "title": "Roses in a Vase",
+        "artist": "Pierre-Auguste Renoir (French, 1841\u20131919)",
+        "year": 1890,
+        "image": "https://openaccess-cdn.clevelandart.org/1941.14/1941.14_web.jpg",
+        "size": 11
+    },
+    {
+        "title": "On the Pont de l'Europe",
+        "artist": "\u00c9douard Vuillard (French, 1868\u20131940)",
+        "year": 1899,
+        "image": "https://openaccess-cdn.clevelandart.org/1951.65.10/1951.65.10_web.jpg",
+        "size": 11
+    },
+    {
+        "title": "Water Lilies (Agapanthus)",
+        "artist": "Claude Monet (French, 1840\u20131926)",
+        "year": 1915,
+        "image": "https://openaccess-cdn.clevelandart.org/1960.81/1960.81_web.jpg",
+        "size": 23
+    }
+]

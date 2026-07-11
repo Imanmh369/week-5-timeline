@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h1 id="artist-name"></h1>
+    <div id="timeline" style="display: flex; overflow-x: auto; padding: 20px;"></div>
+
+    <script>
+        const artist = JSON.parse(localStorage.getItem('selectedArtist'));
+        document.getElementById('artist-name').innerText = artist.name;
+
+        // Sort by year
+        artist.artworks.sort((a, b) => a.year - b.year);
+
+        const container = document.getElementById('timeline');
+        artist.artworks.forEach(art => {
+            container.innerHTML += `
+                <div style="min-width: 150px; text-align: center; margin: 10px;">
+                    <img src="${art.image}" style="width: 100px; height: 100px; object-fit: cover;">
+                    <p>${art.title}<br><b>${art.year}</b></p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>

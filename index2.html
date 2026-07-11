@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body { margin: 0; font-family: 'Georgia', serif; background: #ffffff; display: flex; }
+        #sidebar { width: 250px; padding: 40px; background: #fdfdfd; height: 100vh; border-right: 1px solid #e0e0e0; }
+        .nav-link { padding: 10px 0; cursor: pointer; color: #555; font-size: 14px; letter-spacing: 0.5px; border-bottom: 1px solid #f0f0f0; transition: 0.3s; }
+        .nav-link:hover, .nav-link.active { color: #000; font-weight: bold; }
+        #chart { flex-grow: 1; position: relative; }
+        
+        /* Info Card Style */
+        #info-card { display: none; position: absolute; width: 220px; background: white; padding: 15px; 
+                     border: 1px solid #ddd; box-shadow: 0 4px 15px rgba(0,0,0,0.1); z-index: 100; }
+        #info-card img { width: 100%; height: 150px; object-fit: cover; }
+        
+        .bubble { stroke: #fff; stroke-width: 0.5px; transition: 0.3s; cursor: pointer; fill-opacity: 0.7; }
+        .bubble:hover { stroke: #000; stroke-width: 2px; fill-opacity: 1; }
+    </style>
+</head>
+<body>
+
+<nav id="sidebar">
+    <h3 style="font-weight: 300;">Museum Collection</h3>
+    <div class="nav-link" id="All" onclick="updateChart('All')">Full Timeline</div>
+    <div class="nav-link" id="Renaissance" onclick="updateChart('Renaissance')">Renaissance</div>
+    <div class="nav-link" id="Baroque/Rococo" onclick="updateChart('Baroque/Rococo')">Baroque/Rococo</div>
+    <div class="nav-link" id="Romanticism" onclick="updateChart('Romanticism')">Romanticism</div>
+    <div class="nav-link" id="Impressionism" onclick="updateChart('Impressionism')">Impressionism</div>
+    <div class="nav-link" id="Modern" onclick="updateChart('Modern')">Modern</div>
+    <div class="nav-link" id="Contemporary" onclick="updateChart('Contemporary')">Contemporary</div>
+</nav>
+
+<div id="chart">
+    <div id="info-card">
+        <img id="card-img" src="" alt="Artwork">
+        <h4 id="card-name" style="margin: 10px 0;"></h4>
+        <a id="card-link" href="#">See more</a>
+    </div>
+    <svg width="100%" height="800"></svg>
+</div>
+
+<script>
+    let allData = [];
+    const svg = d3.select("svg");
+    const radiusScale = d3.scaleSqrt().domain([1, 100]).range([12, 35]);
+    const color = d3.scaleOrdinal().range(["#f1c40f", "#3498db", "#e74c3c", "#2ecc71", "#e84393", "#9b59b6"]);
+
+    d3.json("artists.json").then(data => {
+        allData = data.filter(d => parseInt(d.artworks[0].year) >= 1500);
+        updateChart('All');
+    });
+
+    function updateChart(era) {
+        d3.selectAll(".nav-link").classed("active", false);
+        d3.select("#" + era).classed("active", true);
+        render((era === 'All') ? allData : allData.filter(d => d.era === era));
+    }
+
+    function render(data) {
+        svg.selectAll("*").remove();
+        const xScale = d3.scaleLinear().domain(d3.extent(data, d => parseInt(d.artworks[0].year))).range([100, 900]);
+
+        const simulation = d3.forceSimulation(data)
+            .force("x", d3.forceX(d => xScale(parseInt(d.artworks[0].year))).strength(1))
+            .force("y", d3.forceY(400).strength(0.5))
+            .force("collide", d3.forceCollide(d => radiusScale(d.count) + 2))
+            .stop();
+
+        for (let i = 0; i < 300; ++i) simulation.tick();
+
+        svg.selectAll(".bubble").data(data).enter().append("circle")
+            .attr("class", "bubble")
+            .attr("cx", d => d.x).attr("cy", d => d.y).attr("r", d => radiusScale(d.count))
+            .attr("fill", (d, i) => color(i % 6))
+            .on("click", (e, d) => {
+                const card = document.getElementById("info-card");
+                document.getElementById("card-name").innerText = d.name;
+                document.getElementById("card-img").src = d.artworks[0].image_url;
+                document.getElementById("card-link").href = "timeline.html?artist=" + encodeURIComponent(d.name);
+                
+                card.style.display = "block";
+                card.style.left = (e.pageX - 200) + "px"; // Position left of mouse
+                card.style.top = (e.pageY + 20) + "px";
+            });
+
+        // Hide card when clicking the SVG background
+        svg.on("click", (e) => { if(e.target.tagName !== "circle") document.getElementById("info-card").style.display = "none"; });
+    }
+</script>
+</body>
+</html>
