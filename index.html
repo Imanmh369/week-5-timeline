@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <meta charset="UTF-8">
@@ -63,11 +62,7 @@
         background-color: #f0f0f0;
     }
 
-    #modal.active #artist-works-list::before {
-    display: none;
-}
-
-/* This targets the dots specifically */
+#modal.active #artist-works-list::before, 
 #modal.active .timeline-item::after {
     display: none;
 }
@@ -157,6 +152,13 @@
         </div>` : ''}
 `);
 document.getElementById('see-more-btn').onclick = () => {
+
+
+    // --- ADD THESE RESET LINES HERE ---
+    document.getElementById('map-dashboard').style.display = 'none';
+    document.getElementById('artist-timeline').style.display = 'block';
+    document.getElementById('modal').classList.remove('active');
+
     // 1. Header
     document.getElementById('modal-artist-name').innerHTML = `
     <div style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: bold;">${d.artist}</div>
@@ -244,89 +246,57 @@ document.getElementById('see-more-btn').onclick = () => {
 let map; // Define globally
 
 function filterByCountry(country) {
-    // 1. Define Central Coordinates for countries
-    const countryCenters = {
-        "Germany": [51.1657, 10.4515],
-        "France": [46.6034, 1.8883],
-        "Italy": [41.8719, 12.5674],
-        "USA": [37.0902, -95.7129],
-        "Spain": [40.4637, -3.7492]
-    };
-
-    // 2. Setup UI elements and remove clutter
-    const list = document.getElementById('artist-works-list');
+    const modal = document.getElementById('modal');
     const mapDiv = document.getElementById('map-dashboard');
+    const timeline = document.getElementById('artist-timeline');
+    const list = document.getElementById('artist-works-list');
     
-    // Hide the timeline and remove the title text
-    document.getElementById('artist-timeline').style.display = 'none';
-    document.getElementById('modal-artist-name').innerHTML = ""; 
-    
+
+    // 1. Force the correct layout for Map View
     mapDiv.style.display = 'block';
-    list.innerHTML = "";
+    timeline.style.display = 'none'; // Ensure timeline is hidden
+    list.innerHTML = ""; // Clear cards
     
-    // 3. Initialize or Refresh Map
+    modal.style.display = 'block';
+    modal.classList.add('active'); // Hides timeline visuals
+
+    // Hide elements specific to the "See More" timeline view
+    timeline.style.display = 'none';
+    list.innerHTML = ""; 
+    document.getElementById('modal-artist-name').innerHTML = `<h2 style="color:white;">Art from ${country}</h2>`;
+
+    // Setup map dashboard
+    mapDiv.style.display = 'block';
+    modal.style.display = 'block';
+    modal.classList.add('active'); // CSS hook to hide timeline lines
+
+    // Initialize Map
     if (!map) {
-        map = L.map('map-dashboard').setView([20, 0], 2);
+        map = L.map('map-dashboard').setView([51.1657, 10.4515], 6);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         }).addTo(map);
     }
     
-    // 4. Clear existing markers
-    map.eachLayer((layer) => { 
-        if (layer instanceof L.Marker) map.removeLayer(layer); 
-    });
-    
-    // 5. Get center for the chosen country
-    const center = countryCenters[country] || [20, 0];
-    map.setView(center, 6); 
-    
-    // 6. Filter data and add a unique, labeled marker for each artist
-    const countryWorks = allData.filter(w => w.country === country);
-    
-    countryWorks.forEach((w) => {
-        // Create a random offset (jitter) so markers don't stack
-        const offsetLat = (Math.random() - 0.5) * 2; 
-        const offsetLon = (Math.random() - 0.5) * 2;
-        
-        const lat = center[0] + offsetLat;
-        const lon = center[1] + offsetLon;
+    // Clear old markers
+    map.eachLayer((layer) => { if (layer instanceof L.Marker) map.removeLayer(layer); });
 
-        // Add marker with artist name and title in the popup
-        L.marker([lat, lon]).addTo(map)
-         .bindPopup(`
-            <div style="text-align: center;">
-                <b style="font-size: 1.1em;">${w.artist}</b><br>
-                <span style="font-style: italic;">${w.title}</span>
-            </div>
-         `);
-
-        // Populate the list below the map
-        const item = document.createElement('div');
-        item.className = 'timeline-item';
-        item.innerHTML = `
-            <img src="${w.image_url}" width="50" height="50" style="object-fit:cover; border-radius: 4px;">
-            <div style="margin-left: 10px;">
-                <div style="font-weight:bold;">${w.artist}</div>
-                <div style="font-size: 0.9em;">${w.title}</div>
-            </div>
-        `;
-        item.onclick = () => showFullImage(w.image_url);
-        list.appendChild(item);
+    // Add markers for the country
+    allData.filter(w => w.country === country).forEach((w) => {
+        const lat = 51.1657 + (Math.random() - 0.5) * 2;
+        const lon = 10.4515 + (Math.random() - 0.5) * 2;
+        L.marker([lat, lon]).addTo(map).bindPopup(`<b>${w.artist}</b><br>${w.title}`);
     });
 
-    document.getElementById('modal').style.display = 'block';
-    
-    // Force Leaflet to resize correctly
     setTimeout(() => { map.invalidateSize(); }, 200);
 }
 
+
 function closeModal() {
     document.getElementById('modal').style.display = 'none';
-    
-    // ADD THIS LINE:
     document.getElementById('modal').classList.remove('active');
     
+    // Reset both views to be hidden so they don't leak into each other
     document.getElementById('map-dashboard').style.display = 'none';
     document.getElementById('artist-timeline').style.display = 'block';
 }
